@@ -21,6 +21,16 @@ async function getProduct(slug: string): Promise<Product> {
   return product;
 }
 
+// geração estática na build ( SSG )
+export async function generateStaticParams() {
+  const response = await api("/products/featured");
+  const porducts: Product[] = await response.json();
+
+  return porducts.map((product) => {
+    return { slug: product.slug };
+  });
+}
+
 export async function generateMetadata({
   params,
 }: IProductProps): Promise<Metadata> {
